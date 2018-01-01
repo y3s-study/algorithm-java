@@ -1,4 +1,4 @@
-package beakjoon.sj.p_10828;
+package baekjoon.sj.p_10828;
 
 import java.util.Scanner;
 import java.util.Stack;
