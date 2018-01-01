@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: algorithm-java
+Bundle-SymbolicName: algorithm-java
+Bundle-Version: 1.0.0.qualifier
+Export-Package: beakjoon.sj.p_10828,
+ beakjoon.sj.p_2750,
+ beakjoon.yj.p_2750
