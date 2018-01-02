@@ -1,8 +1,8 @@
-package beakjoon.yj.p_2504;
+package baekjoon.yj.p_2504;
 
 import org.junit.Test;
 
-import static beakjoon.yj.p_2504.Main.*;
+import static baekjoon.yj.p_2504.Main.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
