@@ -1,4 +1,4 @@
-package beakjoon.yj.p_9012;
+package baekjoon.yj.p_9012;
 
 import java.util.EmptyStackException;
 import java.util.Scanner;
