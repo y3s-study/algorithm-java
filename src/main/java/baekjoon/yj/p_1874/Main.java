@@ -1,4 +1,4 @@
-package beakjoon.yj.p_1874;
+package baekjoon.yj.p_1874;
 
 import java.util.*;
 import java.util.stream.IntStream;

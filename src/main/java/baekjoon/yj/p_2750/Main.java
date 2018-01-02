@@ -1,4 +1,4 @@
-package beakjoon.yj.p_2750;
+package baekjoon.yj.p_2750;
 
 import java.util.Scanner;
 
