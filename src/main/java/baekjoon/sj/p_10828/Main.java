@@ -16,12 +16,12 @@ public class Main {
 		for(i=0; i<n; i++){
 			input = sc.next();
 			if(input.equals(arr[0])){
-				stack.add(sc.next());
+				stack.push(sc.next());
 			}else if(input.equals(arr[1])){
 				if(stack.empty()){
 					System.out.println(-1);
 				}else{
-					System.out.println(stack.remove(stack.size()-1));
+					System.out.println(stack.pop());
 				}
 			}else if(input.equals(arr[2])){
 				System.out.println(stack.size());
@@ -35,7 +35,7 @@ public class Main {
 				if(stack.empty()){
 					System.out.println(-1);
 				}else{
-					System.out.println(stack.get(stack.size()-1));
+					System.out.println(stack.peek());
 				}
 			}
 		}
