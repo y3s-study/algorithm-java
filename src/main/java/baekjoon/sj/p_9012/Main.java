@@ -16,12 +16,12 @@ public class Main {
 			input[i] = sc.next().toCharArray();
 			for(j=0; j<input[i].length; j++){
 				if(input[i][j] == '('){
-					stack.add(0);
+					stack.push(0);
 				}else{
 					if(stack.empty()){
 						break;
 					}else{
-						stack.remove(stack.size()-1);
+						stack.pop();
 					}
 				}
 			}
