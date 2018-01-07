@@ -23,9 +23,8 @@ public class Main {
         Queue<Integer> queue = IntStream.rangeClosed(1, n).boxed().collect(toCollection(LinkedList::new));
         Queue<Integer> result = new LinkedList<>();
 
-        int counter = 0;
-        while (!queue.isEmpty()) {
-            if (++counter % m == 0) {
+        for (int i = 1; !queue.isEmpty(); i++) {
+            if (i % m == 0) {
                 result.offer(queue.poll());
             } else {
                 queue.offer(queue.poll());
