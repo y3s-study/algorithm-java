@@ -1,4 +1,4 @@
-package baekjoon.sj.p_11866;
+package baekjoon.sj.queue.p_11866;
 
 import java.util.LinkedList;
 import java.util.Queue;
