@@ -1,4 +1,4 @@
-package baekjoon.yj.p_2504;
+package baekjoon.yj.stack.p_2504;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package baekjoon.yj.p_10828.v2;
+package baekjoon.yj.stack.p_10828.v2;
 
 import java.util.*;
 import java.util.function.Consumer;

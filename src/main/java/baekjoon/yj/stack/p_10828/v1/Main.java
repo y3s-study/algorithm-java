@@ -1,4 +1,4 @@
-package baekjoon.yj.p_10828.v1;
+package baekjoon.yj.stack.p_10828.v1;
 
 import java.util.ArrayList;
 import java.util.List;

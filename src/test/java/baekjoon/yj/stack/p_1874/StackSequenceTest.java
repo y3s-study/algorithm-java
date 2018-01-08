@@ -1,8 +1,8 @@
-package baekjoon.yj.p_1874;
+package baekjoon.yj.stack.p_1874;
 
 import org.junit.Test;
 
-import static baekjoon.yj.p_1874.Main.*;
+import static baekjoon.yj.stack.p_1874.Main.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
