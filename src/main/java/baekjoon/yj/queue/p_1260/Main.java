@@ -14,19 +14,19 @@ public class Main {
         int numberOfEdge = scanner.nextInt();
         int startNode = scanner.nextInt();
 
-        int[][] graph = new int[numberOfNode + 1][numberOfNode + 1];
+        boolean[][] graph = new boolean[numberOfNode + 1][numberOfNode + 1];
         while (numberOfEdge-- > 0) {
             int node1 = scanner.nextInt();
             int node2 = scanner.nextInt();
 
-            graph[node1][node2] = graph[node2][node1] = 1;
+            graph[node1][node2] = graph[node2][node1] = true;
         }
 
         System.out.println(getDFSResult(graph, startNode));
         System.out.println(getBFSResult(graph, startNode));
     }
 
-    private static String getDFSResult(int[][] graph, int startNode) {
+    static String getDFSResult(boolean[][] graph, int startNode) {
         boolean[] visited = new boolean[graph.length];
         List<String> result = new ArrayList<>();
 
@@ -35,18 +35,18 @@ public class Main {
         return String.join(" ", result);
     }
 
-    private static void depthFirstSearch(int[][] graph, int node, boolean[] visited, List<String> result) {
+    private static void depthFirstSearch(boolean[][] graph, int node, boolean[] visited, List<String> result) {
         visited[node] = true;
         result.add(String.valueOf(node));
 
         for (int i = 1; i < graph.length; i++) {
-            if (graph[node][i] == 1 && !visited[i]) {
+            if (graph[node][i] && !visited[i]) {
                 depthFirstSearch(graph, i, visited, result);
             }
         }
     }
 
-    private static String getBFSResult(int[][] graph, int startNode) {
+    static String getBFSResult(boolean[][] graph, int startNode) {
         Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[graph.length];
 
@@ -60,7 +60,7 @@ public class Main {
             result.add(String.valueOf(node));
 
             for (int i = 1; i < graph.length; i++) {
-                if (graph[node][i] == 1 && !visited[i]) {
+                if (graph[node][i] && !visited[i]) {
                     queue.offer(i);
                     visited[i] = true;
                 }
