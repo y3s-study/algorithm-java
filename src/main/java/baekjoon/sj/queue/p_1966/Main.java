@@ -60,13 +60,7 @@ public class Main {
 		@Override
 		public int compareTo(priorityQueue o) {
 			// TODO Auto-generated method stub
-			if (this.getInput() > o.getInput()) {
-				return -1;
-			} else if (this.getInput() < o.getInput()) {
-				return 1;
-			} else {
-				return 0;
-			}
+			return o.getInput() - this.getInput();
 		}
 	}
 
