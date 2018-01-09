@@ -7,22 +7,16 @@ import java.util.Scanner;
 //1260
 public class Main {
 	static int[][] arr;
-	static int[][] visitDFS;
-	static int[][] visitBFS;
+	static int[] visitDFS;
+	static int[] visitBFS;
 	static Queue<Integer> queueDFS = new LinkedList<>();
 	static Queue<Integer> queueBFS = new LinkedList<>();
 
 	static void DFS(int row, int col) {
-		if (visitDFS[row][col] == 1) {
-			return;
-		}
-		// Queue에 이미 들어있는지 확인
-		if (!queueDFS.contains(row + 1)) {
-			queueDFS.offer(row + 1);
-		}
+		visitDFS[row] = 1;
+		queueDFS.offer(row + 1);
 		for (int i = 0; i < arr.length; i++) {
-			visitDFS[row][i] = 1;
-			if (arr[row][i] == 1) {
+			if (arr[row][i] == 1 && visitDFS[i] != 1) {
 				DFS(i, 0);
 			}
 		}
@@ -34,8 +28,8 @@ public class Main {
 		int m = sc.nextInt();
 		int v = sc.nextInt();
 		arr = new int[n][n];
-		visitDFS = new int[n][n];
-		visitBFS = new int[n][n];
+		visitDFS = new int[n];
+		visitBFS = new int[n];
 		int row, col;
 		for (int i = 0; i < m; i++) {
 			row = sc.nextInt() - 1;
@@ -58,21 +52,15 @@ public class Main {
 	public static void BFS(int row, int col) {
 		Queue<Integer> queue = new LinkedList<>();
 		queue.offer(row);
-		queueBFS.offer(row + 1);
 
 		while (!queue.isEmpty()) {
 			row = queue.poll();
+			queueBFS.offer(row + 1);
+			visitBFS[row] = 1;
 			for (int i = 0; i < arr.length; i++) {
-				if (visitBFS[row][i] == 1) {
-					continue;
-				}
-				visitBFS[row][i] = 1;
-				if (arr[row][i] == 1) {
+				if (arr[row][i] == 1 && visitBFS[i] != 1) {
+					visitBFS[i] = 1;
 					queue.offer(i);
-					// Queue에 이미 들어있는지 확인
-					if (!queueBFS.contains(i + 1)) {
-						queueBFS.offer(i + 1);
-					}
 				}
 			}
 		}
