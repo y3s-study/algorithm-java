@@ -56,8 +56,6 @@ public class Main {
 		while (!tmpQueue.isEmpty()) {
 			queue.offer(tmpQueue.poll());
 		}
-		
-		tmpQueue.clear();
 //		Queue<String> tmp = new LinkedList<>();
 //		
 //		tmp = tmpQueue;
