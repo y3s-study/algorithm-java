@@ -5,6 +5,15 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 //5430
+/*
+	2
+	R
+	0
+	[]
+	D
+	0
+	[]
+ */
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -13,25 +22,34 @@ public class Main {
 
 		while (testCase-- > 0) {
 			deque.clear();
-			char[] p = sc.next().toCharArray();
+			char[] p = sc.next().replaceAll("RR", "").toCharArray();
 			int n = sc.nextInt();
 			String inputStr = sc.next();
-			String[] inputArr = inputStr.substring(1, inputStr.length() - 1).toString().split(",");
-			
-			for (int i = 0; i < inputArr.length; i++) {
-				if(!inputArr[i].equals("")){
+			inputStr = inputStr.replace("[", "");
+			inputStr = inputStr.replace("]", "");
+			String[] inputArr = inputStr.split(",");
+
+			int length;
+			if (!inputArr[0].equals("")) {
+				length = inputArr.length;
+				for (int i = 0; i < length; i++) {
 					deque.offer(inputArr[i]);
 				}
 			}
 
-			String result = "";
+			boolean reverse = false;
 			boolean isNull = false;
-			for (int i = 0; i < p.length; i++) {
+			length = p.length;
+			for (int i = 0; i < length; i++) {
 				if (p[i] == 'R') {
-					Reverse(deque);
+					reverse = !reverse;
 				} else if (p[i] == 'D') {
 					if (!deque.isEmpty()) {
-						deque.poll();
+						if (reverse) {
+							deque.pollLast();
+						} else {
+							deque.poll();
+						}
 					} else {
 						System.out.println("error");
 						isNull = true;
@@ -39,27 +57,18 @@ public class Main {
 					}
 				}
 			}
+			StringBuilder sb = new StringBuilder("");
 			if (!isNull) {
-				while(deque.size() != 1){
-					result += deque.poll()+",";
+				if(deque.size() != 0){
+					int size = deque.size() -1;
+					while (size-- > 0) {
+						sb.append((reverse) ? (deque.pollLast() + ",") : (deque
+								.poll() + ","));
+					}
+					sb.append((reverse) ? deque.pollLast() : deque.poll());
 				}
-				result += deque.poll();
-				System.out.println("["+result+"]");
+				System.out.println("[" + sb.toString() + "]");
 			}
-		}
-	}
-
-	static void Reverse(Deque<String> deque) {
-		Deque<String> reverseDeque = new LinkedList<>();
-		
-		int size = deque.size();
-		while(size-- > 0){
-			reverseDeque.offer(deque.pollLast());
-		}
-		deque.clear();
-		
-		while(!reverseDeque.isEmpty()){
-			deque.offer(reverseDeque.poll());
 		}
 	}
 }
