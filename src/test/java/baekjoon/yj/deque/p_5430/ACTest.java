@@ -30,4 +30,10 @@ public class ACTest {
         String result = AC.of("D", "[]").compute();
         assertThat(result).isEqualTo("error");
     }
+
+    @Test
+    public void testCase5() {
+        String result = AC.of("DRD", "[10, 20]").compute();
+        assertThat(result).isEqualTo("[]");
+    }
 }
