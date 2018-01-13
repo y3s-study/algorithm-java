@@ -46,21 +46,29 @@ class AC {
     String compute() {
         try {
             Arrays.stream(functions).forEach(this::takeActionByFunction);
-
-            final List<String> remains = direction.getRemains(deque);
-            return String.format("[%s]", String.join(",", remains));
+            return String.format("[%s]", String.join(",", remainElements()));
         } catch (NoSuchElementException e) {
             return "error";
         }
     }
 
+    private List<String> remainElements() {
+        final List<String> remains = new ArrayList<>();
+
+        while (!deque.isEmpty()) {
+            remains.add(direction.removeOneElement(deque));
+        }
+
+        return remains;
+    }
+
     private void takeActionByFunction(String function) {
         if (function.equals("R")) {
-            direction = direction.flip();
+            direction = direction.opposite();
         }
 
         if (function.equals("D")) {
-            direction.removeOneElementFromDeque(deque);
+            direction.removeOneElement(deque);
         }
     }
 }
@@ -73,46 +81,27 @@ class AC {
 enum Direction {
     FRONT {
         @Override
-        Direction flip() {
+        Direction opposite() {
             return BACK;
         }
 
         @Override
-        void removeOneElementFromDeque(Deque<String> deque) {
-            deque.removeFirst();
-        }
-
-        @Override
-        List<String> getRemains(Deque<String> deque) {
-            List<String> remains = new ArrayList<>();
-            while (!deque.isEmpty()) {
-                remains.add(deque.pollFirst());
-            }
-            return remains;
+        String removeOneElement(Deque<String> deque) {
+            return deque.removeFirst();
         }
     },
     BACK {
         @Override
-        Direction flip() {
+        Direction opposite() {
             return FRONT;
         }
 
         @Override
-        void removeOneElementFromDeque(Deque<String> deque) {
-            deque.removeLast();
-        }
-
-        @Override
-        List<String> getRemains(Deque<String> deque) {
-            List<String> remains = new ArrayList<>();
-            while (!deque.isEmpty()) {
-                remains.add(deque.pollLast());
-            }
-            return remains;
+        String removeOneElement(Deque<String> deque) {
+            return deque.removeLast();
         }
     };
 
-    abstract Direction flip();
-    abstract void removeOneElementFromDeque(Deque<String> deque);
-    abstract List<String> getRemains(Deque<String> deque);
+    abstract Direction opposite();
+    abstract String removeOneElement(Deque<String> deque);
 }
