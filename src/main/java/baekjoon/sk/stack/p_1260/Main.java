@@ -1,4 +1,4 @@
-package baekjoon.sk.p_1260;
+package baekjoon.sk.stack.p_1260;
 
 import java.util.*;
 

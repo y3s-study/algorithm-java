@@ -1,4 +1,4 @@
-package baekjoon.sk.p_10828;
+package baekjoon.sk.queue.p_10828;
 
 import java.util.*;
 
