@@ -1,7 +1,8 @@
 package baekjoon.sk.deque.p_5430;
 
-import static java.util.stream.Collectors.joining;
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
@@ -22,19 +23,18 @@ public class Main {
 
 			String inputArr = scanner.nextLine();
 
-			inputArr = inputArr.replace("[", "");
-			inputArr = inputArr.replace("]", "");
-
-			String[] refinedArr = inputArr.split(",");
+			String[] refinedArr = inputArr.substring(1, inputArr.length() - 1)
+					.split(",");
 
 			Deque<String> deque = new LinkedList<String>();
 
-			for (String tmp : refinedArr) {
-				if (!tmp.equals(""))
+			if (!refinedArr[0].equals("")) {
+				for (String tmp : refinedArr) {
 					deque.add(tmp);
+				}
 			}
 
-			boolean firstLast = true;
+			boolean firstLast = false;
 			boolean emptyError = false;
 
 			for (String tmp : command) {
@@ -49,23 +49,30 @@ public class Main {
 					}
 
 					if (firstLast) {
-						deque.pollFirst();
-					} else {
 						deque.pollLast();
+					} else {
+						deque.pollFirst();
 					}
 				}
 			}
 
+			StringBuilder sb = new StringBuilder("");
+
 			if (!emptyError) {
-				if (firstLast)
-					System.out.println(deque.stream().map(String::valueOf)
-							.sorted().collect(joining(",", "[", "]")));
-				else
-					System.out.println(deque.stream().map(String::valueOf)
-							.sorted(Comparator.reverseOrder())
-							.collect(joining(",", "[", "]")));
+
+				if (deque.size() != 0) {
+					int size = deque.size() - 1;
+					while (size-- > 0) {
+						sb.append((firstLast) ? (deque.pollLast() + ",")
+								: (deque.poll() + ","));
+					}
+					sb.append((firstLast) ? deque.pollLast() : deque.poll());
+				}
+
+				System.out.println("[" + sb.toString() + "]");
+
 			}
-			
+
 		}
 	}
 }
