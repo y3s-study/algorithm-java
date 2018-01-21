@@ -12,14 +12,14 @@ public class Main {
 		while (testCase-- > 0) {
 			int buildingCnt = sc.nextInt();
 			int buildingRuleCnt = sc.nextInt();
-			int[] buildTime = new int[buildingCnt+1];
-			int[][] connectedBuilding = new int[buildingCnt+1][buildingCnt+1];
-			int[] indegree = new int[buildingCnt+1];
-			
+			int[] buildTime = new int[buildingCnt + 1];
+			int[][] connectedBuilding = new int[buildingCnt + 1][buildingCnt + 1];
+			int[] indegree = new int[buildingCnt + 1];
+
 			while (buildingCnt-- > 0) {
 				buildTime[buildTime.length - buildingCnt - 1] = sc.nextInt();
 			}
-			
+
 			while (buildingRuleCnt-- > 0) {
 				int row = sc.nextInt();
 				int col = sc.nextInt();
@@ -27,33 +27,33 @@ public class Main {
 				indegree[col]++;
 			}
 			int destination = sc.nextInt();
-			//0에서 부터 출발하기 위하여
-			for(int i=1; i<connectedBuilding[0].length; i++){
+			// 0에서 부터 출발하기 위하여
+			for (int i = 1; i < connectedBuilding[0].length; i++) {
 				connectedBuilding[0][i] = 1;
 				indegree[i]++;
 			}
-			
+
 			System.out.println(findMiniumTime(0, 0, connectedBuilding, buildTime, destination, indegree));
 		}
 	}
-	
-	static int findMiniumTime(int startPosition, int startTime, int[][] connectedBuilding, int[] buildTime, int destination, int[] indegree){
+
+	static int findMiniumTime(int startPosition, int startTime, int[][] connectedBuilding, int[] buildTime, int destination, int[] indegree) {
 		Queue<Pair> queue = new LinkedList<Pair>();
 		queue.add(new Pair(startPosition, startTime));
 		int[] sum = new int[indegree.length];
-		while(!queue.isEmpty()){
+		while (!queue.isEmpty()) {
 			int position = queue.peek().getKey();
 			int time = queue.poll().getValue();
-			
-			for(int j=0; j<connectedBuilding[position].length; j++){
-				if(connectedBuilding[position][j] == 1){
-					if(sum[j] < time + buildTime[j]){
+
+			for (int j = 0; j < connectedBuilding[position].length; j++) {
+				if (connectedBuilding[position][j] == 1) {
+					if (sum[j] < time + buildTime[j]) {
 						sum[j] = time + buildTime[j];
 					}
 
-					if(--indegree[j] == 0){
+					if (--indegree[j] == 0) {
 						queue.add(new Pair(j, sum[j]));
-						if(j == destination){
+						if (j == destination) {
 							break;
 						}
 					}
@@ -64,10 +64,10 @@ public class Main {
 	}
 }
 
-class Pair{
+class Pair {
 	private int key, value;
-	
-	Pair(int key, int value){
+
+	Pair(int key, int value) {
 		this.key = key;
 		this.value = value;
 	}
