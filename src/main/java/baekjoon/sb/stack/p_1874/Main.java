@@ -1,4 +1,4 @@
-package baekjoon.sb.p_1874;
+package baekjoon.sb.stack.p_1874;
 
 import java.util.ArrayList;
 import java.util.Scanner;

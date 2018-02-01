@@ -1,4 +1,4 @@
-package baekjoon.sb.p_9012;
+package baekjoon.sb.stack.p_9012;
 
 import java.util.Scanner;
 import java.util.Stack;
