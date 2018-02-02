@@ -1,4 +1,4 @@
-package baekjoon.sj.divideAndConquer.p_2447;
+package baekjoon.sj.divideAndConquer.p_2447.v1;
 
 import java.io.IOException;
 import java.util.Scanner;
