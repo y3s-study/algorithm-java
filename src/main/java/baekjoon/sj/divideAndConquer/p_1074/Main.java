@@ -33,7 +33,7 @@ public class Main {
 			// right-down
 			findZPosition(midRow + 1, endRow, midCol + 1, endCol);
 		}
-		if (find == true) {
+		if (find) {
 			return;
 		}
 
