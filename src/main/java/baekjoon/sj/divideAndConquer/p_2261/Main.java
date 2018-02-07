@@ -22,25 +22,71 @@ public class Main {
 
 		Collections.sort(list, new MySort());
 
-		findMinDistance(list, 0, list.size());
+		// for (Pair pair : list) {
+		// System.out.println("x: "+pair.getX()+" y: "+pair.getY());
+		// }
+
+		System.out.println(findMinDistance(list, 0, list.size() - 1));
 	}
 
-	public static int findMinDistance(ArrayList<Pair> list, int start, int end) {
+	static public long distance(ArrayList<Pair> list, int a, int b) {
+		// System.out.println("x: "+ xDistance(list, a, b));
+		// System.out.println("y: "+ yDistance(list, a, b));
+		return xDistance(list, a, b) + yDistance(list, a, b);
+	}
+
+	public static long xDistance(ArrayList<Pair> list, int a, int b) {
+		// System.out.println("list.get(a).getX(): "+list.get(a).getX());
+		// System.out.println("list.get(b).getX(): "+ list.get(b).getX());
+		// System.out.println("Math.pow(list.get(a).getX() - list.get(b).getX(), 2): "+
+		// Math.pow(list.get(a).getX() - list.get(b).getX(), 2));
+		return (long) (Math.pow(list.get(a).getX() - list.get(b).getX(), 2));
+	}
+
+	public static long yDistance(ArrayList<Pair> list, int a, int b) {
+		// System.out.println("Math.pow(list.get(a).getY() - list.get(b).getY(), 2): "+Math.pow(list.get(a).getY()
+		// - list.get(b).getY(), 2));
+		return (long) (Math.pow(list.get(a).getY() - list.get(b).getY(), 2));
+	}
+
+	public static long findMinDistance(ArrayList<Pair> list, int start, int end) {
+
+		// System.out.println("before start: " + start + " end: " + end);
 		int mid = (start + end) / 2;
-		System.out.println("start: "+ start);
-		System.out.println("end: "+end);
-		if(start  + 1 == end){
+		if (start + 1 == end) {
+			// System.out.println(distance(list, start, end));
+			return distance(list, start, end);
+		}
+		if (start == end) {
+			// System.out.println(distance(list, start, end));
 			return Integer.MAX_VALUE;
 		}
-		int leftDistance = findMinDistance(list, start, mid-1);
-		int rightDistance = findMinDistance(list, mid, end);
-		int minDistance = Math.min(leftDistance, rightDistance);
-		
-		
-		System.out.println(list.get(mid).getX());
-		System.out.println(list.get(mid).getY());
-		
-		return 0;
+		// divide
+		long leftDistance = findMinDistance(list, start, mid);
+		long rightDistance = findMinDistance(list, mid + 1, end);
+		// System.out.println("leftDistance: " + leftDistance);
+		// System.out.println("rightDistance: " + rightDistance);
+		long minDistance = Math.min(leftDistance, rightDistance);
+
+		// System.out.println("list.get(mid).getX(): " + list.get(mid).getX());
+		// System.out.println("list.get(mid).getY(): " + list.get(mid).getY());
+		// System.out.println("before minDistance: " + minDistance);
+		// conquer
+		// System.out.println("conquer start: " + start + " end: " + end);
+		for (int i = start; i < end; i++) {
+			for (int j = i + 1; j <= end; j++) {
+				// System.out.println("i: "+i+" j: "+j);
+				long yDistance = yDistance(list, i, j);
+				// System.out.println("yDistance: "+yDistance);
+				if (minDistance > yDistance(list, i, j)) {
+					minDistance = distance(list, i, j);
+				} else {
+					break;
+				}
+			}
+		}
+		// System.out.println("after minDistance: " + minDistance);
+		return minDistance;
 	}
 }
 
