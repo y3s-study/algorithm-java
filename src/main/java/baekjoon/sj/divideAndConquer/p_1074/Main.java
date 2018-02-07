@@ -21,6 +21,11 @@ public class Main {
 	}
 
 	static void findZPosition(int startRow, int endRow, int startCol, int endCol) {
+
+		if (find) {
+			return;
+		}
+		
 		if (endRow != startRow + 1) {
 			int midRow = (startRow + endRow) / 2;
 			int midCol = (startCol + endCol) / 2;
@@ -32,9 +37,6 @@ public class Main {
 			findZPosition(midRow + 1, endRow, startCol, midCol);
 			// right-down
 			findZPosition(midRow + 1, endRow, midCol + 1, endCol);
-		}
-		if (find) {
-			return;
 		}
 
 		if (endRow == startRow + 1) {
