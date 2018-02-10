@@ -60,9 +60,9 @@ public class Main {
 		ArrayList<Pair> subList = new ArrayList<>(list.subList(start, end));
 		Collections.sort(subList, new ySort());
 		long minDistance = Long.MAX_VALUE;
-		
+
 		for (int i = 0; i < subList.size() - 1; i++) {
-			for (int j = i + 1; j < subList.size(); j++) {
+			for (int j = i + 1; j < subList.size() && j <= i + 1000; j++) {
 				long yDistance = yDistance(subList, i, j);
 				if (minDistance > yDistance) {
 					minDistance = Math.min(minDistance, distance(subList, i, j));
@@ -78,14 +78,22 @@ public class Main {
 class xSort implements Comparator<Pair> {
 	@Override
 	public int compare(Pair o1, Pair o2) {
-		return o1.getX() - o2.getX();
+		if(o1.getX() != o2.getX()){
+			return o1.getX() - o2.getX();
+		}else{
+			return o1.getY() - o2.getY();
+		}
 	}
 }
 
 class ySort implements Comparator<Pair> {
 	@Override
 	public int compare(Pair o1, Pair o2) {
-		return o1.getY() - o2.getY();
+		if(o1.getY() != o2.getY()){
+			return o1.getY() - o2.getY();
+		}else{
+			return o1.getX() - o2.getX();
+		}
 	}
 }
 
