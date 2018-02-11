@@ -51,18 +51,33 @@ public class Main {
 		long minDistance = Math.min(leftDistance, rightDistance);
 
 		// conquer
-		minDistance = Math.min(minDistance, minYDistanc(list, start, end));
+		minDistance = Math.min(minDistance, minYDistanc(list, start, end, minDistance));
 
 		return minDistance;
 	}
 
-	public static long minYDistanc(ArrayList<Pair> list, int start, int end) {
-		ArrayList<Pair> subList = new ArrayList<>(list.subList(start, end));
+	public static void addMinXDistance(ArrayList<Pair> list, ArrayList<Pair> subList, int start, int end, long distance) {
+		int mid = (start + end) / 2;
+
+		for (int i = start; i < end; i++) {
+			if (distance >= xDistance(list, i, mid)) {
+				subList.add(new Pair(list.get(i).getX(), list.get(i).getY()));
+			}
+		}
+
 		Collections.sort(subList, new ySort());
+	}
+
+	public static long minYDistanc(ArrayList<Pair> list, int start, int end, long distance) {
+		ArrayList<Pair> subList = new ArrayList<>();
 		long minDistance = Long.MAX_VALUE;
 
+		// sublist에 기준값을 중심으로 minDitansce 보다 작은 값을 추가
+		addMinXDistance(list, subList, start, end, distance);
+
+		// sublist에서 y축을 기준으로 minDitance보다 작은 값을 찾음.
 		for (int i = 0; i < subList.size() - 1; i++) {
-			for (int j = i + 1; j < subList.size() && j <= i + 1000; j++) {
+			for (int j = i + 1; j < subList.size(); j++) {
 				long yDistance = yDistance(subList, i, j);
 				if (minDistance > yDistance) {
 					minDistance = Math.min(minDistance, distance(subList, i, j));
@@ -78,9 +93,9 @@ public class Main {
 class xSort implements Comparator<Pair> {
 	@Override
 	public int compare(Pair o1, Pair o2) {
-		if(o1.getX() != o2.getX()){
+		if (o1.getX() != o2.getX()) {
 			return o1.getX() - o2.getX();
-		}else{
+		} else {
 			return o1.getY() - o2.getY();
 		}
 	}
@@ -89,9 +104,9 @@ class xSort implements Comparator<Pair> {
 class ySort implements Comparator<Pair> {
 	@Override
 	public int compare(Pair o1, Pair o2) {
-		if(o1.getY() != o2.getY()){
+		if (o1.getY() != o2.getY()) {
 			return o1.getY() - o2.getY();
-		}else{
+		} else {
 			return o1.getX() - o2.getX();
 		}
 	}
