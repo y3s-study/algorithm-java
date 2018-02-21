@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 //1167
 public class Main {
-	static int maxValue = Integer.MIN_VALUE;
-
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int v = sc.nextInt();
@@ -19,7 +17,6 @@ public class Main {
 		}
 
 		sc.nextLine();
-		// sc.nextLine();
 		while (v-- > 0) {
 			String[] input = sc.nextLine().split(" ");
 			int row = Integer.parseInt(input[0]) - 1;
@@ -28,41 +25,47 @@ public class Main {
 				int value = Integer.parseInt(input[i + 1]);
 				list.get(row).add(new Node(col, value, col));
 			}
-			// if (v > 0) {
-			// sc.nextLine();
-			// }
 		}
 
-		findTreeDiameter(list);
-
-		System.out.println(maxValue);
+		System.out.println(findTreeDiameter(list, -1));
 	}
 
-	static void findTreeDiameter(ArrayList<ArrayList<Node>> list) {
+	/*
+	 * find Number 
+	 * -1: return Node 
+	 * etc: return Diameter
+	 */
+	static int findTreeDiameter(ArrayList<ArrayList<Node>> list, int findNumber) {
 		Queue<Node> queue = new LinkedList<>();
+		int maxValue = Integer.MIN_VALUE;
 
-		// add all node
-		for (int i = 0; i < list.size(); i++) {
-			queue.add(new Node(i, 0, -1));
+		if (findNumber == -1) {
+			queue.add(new Node(0, 0, -1));
+		} else {
+			queue.add(new Node(findNumber, 0, -1));
 		}
-		
+		int node = -1;
 		while (!queue.isEmpty()) {
 			int row = queue.peek().getNode();
 			int accumWeight = queue.peek().getWeight(); // accumulateWeight
 			int parent = queue.poll().getParent();
-			// System.out.println("row: " + row + " accumWeight: " + accumWeight
-			// + " parent: " + parent);
-			// System.out.println("list.get(row).size(): "+list.get(row).size());
 			for (int i = 0; i < list.get(row).size(); i++) {
 				if (list.get(row).get(i).getParent() != parent) {
-					// System.out.println("add queue row: "+list.get(row).get(i).getNode());
 					queue.add(new Node(list.get(row).get(i).getNode(), accumWeight + list.get(row).get(i).getWeight(), row));
 					if (maxValue < accumWeight + list.get(row).get(i).getWeight()) {
 						maxValue = accumWeight + list.get(row).get(i).getWeight();
+						node = list.get(row).get(i).getNode();
 					}
 				}
 			}
 		}
+
+		if (findNumber == -1) {
+			return findTreeDiameter(list, node);
+		} else {
+			return maxValue;
+		}
+
 	}
 }
 
