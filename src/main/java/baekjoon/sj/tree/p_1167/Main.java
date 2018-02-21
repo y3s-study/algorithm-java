@@ -1,5 +1,6 @@
 package baekjoon.sj.tree.p_1167;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -11,65 +12,73 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int v = sc.nextInt();
-		int[][] weight = new int[v][v];
+		ArrayList<ArrayList<Node>> list = new ArrayList<>(v);
+
+		for (int i = 0; i < v; i++) {
+			list.add(new ArrayList<>());
+		}
+
 		sc.nextLine();
-//		sc.nextLine();
+		// sc.nextLine();
 		while (v-- > 0) {
 			String[] input = sc.nextLine().split(" ");
 			int row = Integer.parseInt(input[0]) - 1;
 			for (int i = 1; i < input.length - 1; i = i + 2) {
 				int col = Integer.parseInt(input[i]) - 1;
 				int value = Integer.parseInt(input[i + 1]);
-				weight[row][col] = value;
-				weight[col][row] = value;
+				list.get(row).add(new Node(col, value, col));
 			}
-//			if (v > 0) {
-//				sc.nextLine();
-//			}
+			// if (v > 0) {
+			// sc.nextLine();
+			// }
 		}
 
-		findTreeDiameter(weight);
+		findTreeDiameter(list);
 
 		System.out.println(maxValue);
 	}
 
-	static void findTreeDiameter(int[][] weight) {
+	static void findTreeDiameter(ArrayList<ArrayList<Node>> list) {
 		Queue<Node> queue = new LinkedList<>();
-		boolean[][] visit = new boolean[weight.length][weight.length];
 
 		// add all node
-		for (int i = 0; i < weight.length; i++) {
-			queue.add(new Node(i, 0, i));
+		for (int i = 0; i < list.size(); i++) {
+			queue.add(new Node(i, 0, -1));
 		}
-
+		
 		while (!queue.isEmpty()) {
 			int row = queue.peek().getNode();
 			int accumWeight = queue.peek().getWeight(); // accumulateWeight
-			int startNode = queue.poll().getStartNode();
-
-			visit[startNode][row] = true;
-			for (int i = 0; i < weight.length; i++) {
-				if (weight[row][i] != 0 && visit[startNode][i] == false) {
-					queue.add(new Node(i, accumWeight + weight[row][i], startNode));
-					if (maxValue < accumWeight + weight[row][i]) {
-						maxValue = accumWeight + weight[row][i];
+			int parent = queue.poll().getParent();
+			// System.out.println("row: " + row + " accumWeight: " + accumWeight
+			// + " parent: " + parent);
+			// System.out.println("list.get(row).size(): "+list.get(row).size());
+			for (int i = 0; i < list.get(row).size(); i++) {
+				if (list.get(row).get(i).getParent() != parent) {
+					// System.out.println("add queue row: "+list.get(row).get(i).getNode());
+					queue.add(new Node(list.get(row).get(i).getNode(), accumWeight + list.get(row).get(i).getWeight(), row));
+					if (maxValue < accumWeight + list.get(row).get(i).getWeight()) {
+						maxValue = accumWeight + list.get(row).get(i).getWeight();
 					}
 				}
 			}
 		}
-
 	}
 }
 
 class Node {
 	private int node;
 	private int weight;
-	private int startNode;
+	private int parent; // -1: no parent
 
-	Node(int node, int weight, int startNode) {
+	Node(int node, int weight, int parent) {
 		this.node = node;
 		this.weight = weight;
-		this.startNode = startNode;
+		this.parent = parent;
+	}
+
+	public int getParent() {
+		return parent;
 	}
 
 	public int getNode() {
@@ -78,10 +87,6 @@ class Node {
 
 	public int getWeight() {
 		return weight;
-	}
-
-	public int getStartNode() {
-		return startNode;
 	}
 
 }
