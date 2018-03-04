@@ -92,12 +92,7 @@ public class Main {
 	}
 
 	static boolean isOutOfArrayCheck(int[][] arr, int row, int col) {
-
-		if (row < 0 || row >= arr.length || col < 0 || col >= arr[0].length) {
-			return true;
-		}
-
-		return false;
+		return (row < 0 || row >= arr.length || col < 0 || col >= arr[0].length);
 	}
 
 	static void addStartPosition(Queue<Pair> queue, int[][] arr, boolean[][] visit) {
