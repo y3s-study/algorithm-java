@@ -48,13 +48,13 @@ public class Main {
 			int position = queue.poll();
 			resultList.add(position);
 			int before = 0;
-//			for (int i = 0; i < list.get(position).size(); i++) {
-				before = list.get(position).get(0);
+			for (int i = 0; i < list.get(position).size(); i++) {
+				before = list.get(position).get(i);
 				indegree[before]--;
 				if (indegree[before] == 0) {
 					queue.add(before);
 				}
-//			}
+			}
 		}
 	}
 }
