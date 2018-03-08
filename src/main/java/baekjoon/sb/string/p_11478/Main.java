@@ -16,7 +16,7 @@ public class Main {
 	public static int getNotEqualSubstringCount(String input) {
 		
 		Set<String> set = new HashSet<>();
-		String str = input.toString();
+		String str = input;
 		
 		for(int i = 0; i < input.length(); i++) { 			// i + 1 = 자르는 글자 개수
 			for(int j = 0; j < input.length() - i; j++) {
