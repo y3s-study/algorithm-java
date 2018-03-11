@@ -1,4 +1,4 @@
-package baekjoon.yj.string;
+package baekjoon.yj.string.p_11478;
 
 import org.junit.Before;
 import org.junit.Test;

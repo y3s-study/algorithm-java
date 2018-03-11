@@ -1,4 +1,4 @@
-package baekjoon.yj.string;
+package baekjoon.yj.string.p_11478;
 
 import java.util.Scanner;
 import java.util.stream.IntStream;
