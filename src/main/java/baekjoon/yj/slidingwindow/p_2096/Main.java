@@ -1,9 +1,6 @@
 package baekjoon.yj.slidingwindow.p_2096;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * https://www.acmicpc.net/problem/2096
@@ -14,56 +11,61 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         final int N = scanner.nextInt();
 
-        int[][] map = IntStream.range(0, N)
-                .mapToObj(i -> IntStream.generate(scanner::nextInt).limit(3).toArray())
-                .toArray(int[][]::new);
+        int[][] maxMap = new int[N][3];
+        int[][] minMap = new int[N][3];
 
-        GetDown getDown = new GetDown(map);
-        int minScore = getDown.getScore(Comparator.naturalOrder());
-        int maxScore = getDown.getScore(Comparator.reverseOrder());
-        System.out.println(maxScore + " " + minScore);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < 3; j++) {
+                maxMap[i][j] = minMap[i][j] = scanner.nextInt();
+            }
+        }
+
+        GetDown getDown = new GetDown(maxMap, minMap);
+        System.out.println(getDown.getMaxScore() + " " + getDown.getMinScore());
     }
 }
 
+@SuppressWarnings("all")
 class GetDown {
-    private int[][] map;
-    private int[][] cache;
+    private int[][] maxMap;
+    private int[][] minMap;
 
-    GetDown(int[][] map) {
-        this.map = map;
-        this.cache = new int[map.length][map.length];
-        initCache();
+    GetDown(int[][] maxMap, int[][] minMap) {
+        this.maxMap = maxMap;
+        this.minMap = minMap;
+        updateScore();
     }
 
-    public int getScore(Comparator<Integer> comparator) {
-        initCache();
+    private void updateScore() {
+        for (int i = 1; i < maxMap.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                List<Integer> maxList = new ArrayList<>();
+                List<Integer> minList = new ArrayList<>();
 
-        return Stream.of(
-                getScore(0, 0, comparator),
-                getScore(0, 1, comparator),
-                getScore(0, 2, comparator)
-        ).collect(Collectors.toCollection(() -> new PriorityQueue<>(comparator))).poll();
-    }
+                maxList.add(maxMap[i-1][1]);
+                minList.add(minMap[i-1][1]);
 
-    private int getScore(int i, int j, Comparator<Integer> comparator) {
-        if (cache[i][j] != -1) {
-            return cache[i][j];
+                if (j < 2) {
+                    maxList.add(maxMap[i-1][0]);
+                    minList.add(minMap[i-1][0]);
+                }
+
+                if (j > 0) {
+                    maxList.add(maxMap[i-1][2]);
+                    minList.add(minMap[i-1][2]);
+                }
+
+                maxMap[i][j] += maxList.stream().max(Comparator.naturalOrder()).get();
+                minMap[i][j] += minList.stream().min(Comparator.naturalOrder()).get();
+            }
         }
-
-        if (i == map.length - 1) {
-            return cache[i][j] = map[i][j];
-        }
-
-        Queue<Integer> pq = new PriorityQueue<>(comparator);
-
-        pq.offer(getScore(i + 1, 1, comparator));
-        if (j < 2) pq.offer(getScore(i + 1, 0, comparator));
-        if (j > 0) pq.offer(getScore(i + 1, 2, comparator));
-
-        return cache[i][j] = pq.poll() + map[i][j];
     }
 
-    private void initCache() {
-        Arrays.stream(cache).forEach(row -> Arrays.fill(row, -1));
+    public int getMaxScore() {
+        return Arrays.stream(maxMap[maxMap.length - 1]).max().getAsInt();
+    }
+
+    public int getMinScore() {
+        return Arrays.stream(minMap[minMap.length - 1]).min().getAsInt();
     }
 }
