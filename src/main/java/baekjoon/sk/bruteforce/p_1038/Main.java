@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Main {
 
 	static long jump = 1;
-	static long jumpCnt = 0;
 
 	public static void main(String[] args) {
 
@@ -18,6 +17,16 @@ public class Main {
 
 		while (true) {
 
+			if(N == 0) {
+				System.out.println("0");
+				break;
+			}
+			
+			if (N > 1023) {
+				System.out.println("-1");
+				break;
+			}
+
 			if (checkReduceNum(n))
 				cnt++;
 
@@ -25,15 +34,15 @@ public class Main {
 				break;
 
 			if (jump > 1) {
-				n = (long)((n+jump) - ((n + jump) % Math.pow(10, jumpCnt)));
+				n = (long) ((n + jump) - (n % jump));
 				jump = 1;
-				jumpCnt = 0;
 			} else {
 				n++;
 			}
 		}
 
-		System.out.println(n);
+		if (N > 0 && N < 1022)
+			System.out.println(n);
 
 	}
 
@@ -52,12 +61,11 @@ public class Main {
 
 			if (num % 10 <= before) {
 				jump *= 10;
-				jumpCnt++;
 				return false;
 			}
 
 		}
-
+		
 		return true;
 	}
 

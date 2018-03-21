@@ -12,23 +12,19 @@ public class Main {
 		int[][] arr = new int[N][stair];
 		int[][] minArr = new int[N][stair];
 		int[][] maxArr = new int[N][stair];
-
-		for (int i = 0; i < N; i++) {
+		int i = 0;
+		for (i = 0; i < N; i++) {
 			for (int j = 0; j < stair; j++) {
 				arr[i][j] = sc.nextInt();
 			}
-			if (i > 0) {
-				int beforeIndex = i - 1;
-				calcMinArr(minArr, arr, i, beforeIndex);
-				calcMaxArr(maxArr, arr, i, beforeIndex);
-			} else {
-				initArr(minArr, maxArr, arr, i);
-			}
-
-			if (i == N - 1) {
-				System.out.println(getMaxValue(maxArr, i) + " " + getMinValue(minArr, i));
-			}
 		}
+		initArr(minArr, maxArr, arr, 0);
+
+		for (i = 1; i < N; i++) {
+			calcMinArr(minArr, arr, i, i - 1);
+			calcMaxArr(maxArr, arr, i, i - 1);
+		}
+		System.out.println(getMaxValue(maxArr, i - 1) + " " + getMinValue(minArr, i - 1));
 	}
 
 	private static int getMinValue(int[][] minArr, int i) {
@@ -45,25 +41,27 @@ public class Main {
 		minArr[i][1] = maxArr[i][1] = arr[i][1];
 	}
 
-	private static int getCalcMax(int[][] maxArr, int[][] arr, int i, int beforeIndex, int position) {
+	private static int getCalcMax(int[][] maxArr, int beforeIndex, int position) {
 		return Integer.max(maxArr[beforeIndex][position], maxArr[beforeIndex][position + 1]);
 	}
 
 	private static void calcMaxArr(int[][] maxArr, int[][] arr, int i, int beforeIndex) {
-		maxArr[i][0] = getCalcMax(maxArr, arr, beforeIndex, beforeIndex, 0) + arr[i][0];
-		maxArr[i][2] = getCalcMax(maxArr, arr, beforeIndex, beforeIndex, 1) + arr[i][2];
-		maxArr[i][1] = Integer.max(getCalcMax(maxArr, arr, beforeIndex, beforeIndex, 0), getCalcMax(maxArr, arr, beforeIndex, beforeIndex, 1))
-				+ arr[i][1];
+		int leftValue = getCalcMax(maxArr, beforeIndex, 0);
+		int rightValue = getCalcMax(maxArr, beforeIndex, 1);
+		maxArr[i][0] = leftValue + arr[i][0];
+		maxArr[i][2] = rightValue + arr[i][2];
+		maxArr[i][1] = Integer.max(leftValue, rightValue) + arr[i][1];
 	}
 
-	private static int getCalcMin(int[][] minArr, int[][] arr, int i, int beforeIndex, int position) {
+	private static int getCalcMin(int[][] minArr, int beforeIndex, int position) {
 		return Integer.min(minArr[beforeIndex][position], minArr[beforeIndex][position + 1]);
 	}
 
 	private static void calcMinArr(int[][] minArr, int[][] arr, int i, int beforeIndex) {
-		minArr[i][0] = getCalcMin(minArr, arr, beforeIndex, beforeIndex, 0) + arr[i][0];
-		minArr[i][2] = getCalcMin(minArr, arr, beforeIndex, beforeIndex, 1) + arr[i][2];
-		minArr[i][1] = Integer.min(getCalcMin(minArr, arr, beforeIndex, beforeIndex, 0), getCalcMin(minArr, arr, beforeIndex, beforeIndex, 1))
-				+ arr[i][1];
+		int leftValue = getCalcMin(minArr,beforeIndex, 0);
+		int rightValue = getCalcMin(minArr, beforeIndex, 1);
+		minArr[i][0] = leftValue + arr[i][0];
+		minArr[i][2] = rightValue + arr[i][2];
+		minArr[i][1] = Integer.min(leftValue, rightValue) + arr[i][1];
 	}
 }
