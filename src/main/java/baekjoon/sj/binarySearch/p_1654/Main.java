@@ -1,6 +1,5 @@
 package baekjoon.sj.binarySearch.p_1654;
 
-import java.math.BigInteger;
 import java.util.Scanner;
 
 /*
@@ -10,34 +9,32 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int K = sc.nextInt();
-		long N = sc.nextInt();
+		long N = sc.nextLong();
+		long[] lanLine = new long[K];
 
-		BigInteger[] lanLine = new BigInteger[K];
-		BigInteger sum = new BigInteger("0");
-		for (int i = 0; i < K; i++) {
-			lanLine[i] = new BigInteger(sc.next());
-			sum = sum.add(lanLine[i]);
+		for (int i = 0; i < lanLine.length; i++) {
+			lanLine[i] = sc.nextLong();
 		}
 
-		System.out.println(findMaxLanLine(lanLine, N, new BigInteger("0"), sum));
+		System.out.println(findMaxLanLine(lanLine, N, 0, Long.MAX_VALUE-1));
 	}
 
-	private static BigInteger findMaxLanLine(BigInteger[] lanLine, long N, BigInteger start, BigInteger end) {
-		BigInteger mid = start.add(end).divide(BigInteger.valueOf(2));
-//		System.out.println("start: " + start + " end: " + end + " mid: " + mid);
-		if (start.compareTo(end) >= 0) {
-			return mid.subtract(BigInteger.valueOf(1));
+	private static long findMaxLanLine(long[] lanLine, long N, long start, long end) {
+		long mid = (start + end) / 2;
+		if (start >= end) {
+			return mid - 1;
 		}
-		BigInteger cnt = new BigInteger("0");
+		
+		long cnt = 0;
 		for (int i = 0; i < lanLine.length; i++) {
-			cnt = cnt.add(lanLine[i].divide(mid));
-			if (cnt.compareTo(BigInteger.valueOf(N)) >= 0) {
+			cnt += lanLine[i] / mid;
+			if (cnt >= N) {
 				break;
 			}
 		}
 
-		if (cnt.compareTo(BigInteger.valueOf(N)) >= 0) {
-			return findMaxLanLine(lanLine, N, mid.add(BigInteger.valueOf(1)), end);
+		if (cnt >= N) {
+			return findMaxLanLine(lanLine, N, mid + 1, end);
 		} else {
 			return findMaxLanLine(lanLine, N, start, mid);
 		}
