@@ -45,9 +45,11 @@ class BinarySearch {
         }
 
         if (source[mid] < target) {
-            return contains(source, target, mid + 1, end);
+            first = mid + 1;
         } else {
-            return contains(source, target, first, mid - 1);
+            end = mid - 1;
         }
+
+        return contains(source, target, first, end);
     }
 }
