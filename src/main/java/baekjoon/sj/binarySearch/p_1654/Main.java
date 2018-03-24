@@ -16,7 +16,7 @@ public class Main {
 			lanLine[i] = sc.nextLong();
 		}
 
-		System.out.println(findMaxLanLine(lanLine, N, 0, Long.MAX_VALUE-1));
+		System.out.println(findMaxLanLine(lanLine, N, 0, Long.MAX_VALUE - 1));
 	}
 
 	private static long findMaxLanLine(long[] lanLine, long N, long start, long end) {
@@ -24,7 +24,7 @@ public class Main {
 		if (start >= end) {
 			return mid - 1;
 		}
-		
+
 		long cnt = 0;
 		for (int i = 0; i < lanLine.length; i++) {
 			cnt += lanLine[i] / mid;
