@@ -1,4 +1,4 @@
-package baekjoon.yj.binarysearch;
+package baekjoon.yj.binarysearch.p_1920;
 
 import org.junit.Before;
 import org.junit.Test;

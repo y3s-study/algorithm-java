@@ -1,13 +1,9 @@
-package baekjoon.yj.binarysearch;
+package baekjoon.yj.binarysearch.p_1920.v2;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.stream.IntStream;
 
-/**
- * https://www.acmicpc.net/problem/1920
- * 수 찾기
- */
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,26 +26,23 @@ public class Main {
 
 class BinarySearch {
     public boolean contains(int[] source, int target) {
-        return contains(source, target, 0, source.length - 1);
-    }
+        int first = 0;
+        int end = source.length - 1;
 
-    private boolean contains(int[] source, int target, int first, int end) {
-        if (first > end) {
-            return false;
+        while (first <= end) {
+            int mid = (first + end) / 2;
+
+            if (source[mid] == target) {
+                return true;
+            }
+
+            if (source[mid] < target) {
+                first = mid + 1;
+            } else {
+                end = mid - 1;
+            }
         }
 
-        int mid = (first + end) / 2;
-
-        if (source[mid] == target) {
-            return true;
-        }
-
-        if (source[mid] < target) {
-            first = mid + 1;
-        } else {
-            end = mid - 1;
-        }
-
-        return contains(source, target, first, end);
+        return false;
     }
 }
