@@ -1,12 +1,31 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+    }
+}
+
 group 'y3s-study'
 version '1'
 
 apply plugin: 'java'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 dependencies {
