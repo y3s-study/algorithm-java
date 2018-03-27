@@ -7,3 +7,6 @@ script: "./gradlew clean build"
 # build, test가 끝나면 test coverage를 coveralls로 전송
 after_success:
 - ./gradlew jacocoTestReport coveralls
+
+notifications:
+  slack: y3s-study:jxifYL3NC4gHiSMIvoDOxn03
