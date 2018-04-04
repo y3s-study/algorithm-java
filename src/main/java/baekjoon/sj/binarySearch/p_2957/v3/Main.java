@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+/*
+ * https://www.acmicpc.net/problem/2957
+ * 이진 탐색 트리
+ */
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,7 +20,7 @@ public class Main {
 		TreeMap<Integer, Integer> tm = new TreeMap<>();
 		tm.put(0, -1);
 		tm.put(300001, -1);
-		int cnt = 0;
+		long cnt = 0;
 		while (n-- > 0) {
 			st = new StringTokenizer(br.readLine());
 			int input = Integer.parseInt(st.nextToken());
