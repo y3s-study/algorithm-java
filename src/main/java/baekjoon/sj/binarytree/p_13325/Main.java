@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 
 /*
  * https://www.acmicpc.net/problem/13325
+ * 이진 트리
  */
 public class Main {
 	public static void main(String[] args) {
@@ -12,9 +13,7 @@ public class Main {
 		int deep = sc.nextInt();
 		int inputCnt = 0;
 
-		for (int i = 0; i <= 20; i++) {
-			inputCnt += Math.pow(2, i);
-		}
+		inputCnt = (int) (Math.pow(2, deep + 1) - 1);
 
 		int[] arr = new int[inputCnt + 1];
 		arr[1] = -1;
@@ -22,22 +21,36 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(sc.nextLine());
 		int index = 2;
 		while (st.hasMoreElements()) {
-			arr[index++] = Integer.parseInt(st.nextToken());
-			// System.out.println(arr[index-1]);
+			arr[index] = Integer.parseInt(st.nextToken());
+			index++;
 		}
 
-		System.out.println(findMinWeight(arr, 1));
+		findMinWeight(arr, 1);
+		
+		int sum = 0;
+		for (int i = 2; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		System.out.println(sum);
 	}
 
 	private static int findMinWeight(int[] arr, int index) {
-		if (arr[index] == 0) {
+		if (index > arr.length - 1) {
 			return 0;
 		}
-		System.out.println("arr[" + index + "]: " + arr[index]);
-		int max = Integer.max(findMinWeight(arr, index * 2), findMinWeight(arr, index * 2 + 1));
-		int curWeight = max * 2 + arr[index];
-		System.out.println("max: "+max+" curWeight: "+curWeight);
+		int leftNodeWeight = findMinWeight(arr, index * 2);
+		int rightNodeWeight = findMinWeight(arr, index * 2 + 1);
+		int maxWeight = Integer.max(leftNodeWeight, rightNodeWeight);
 
-		return curWeight;
+		if (leftNodeWeight > rightNodeWeight) {
+			if (index * 2 + 1 < arr.length) {
+				arr[index * 2 + 1] += leftNodeWeight - rightNodeWeight;
+			}
+		} else {
+			if (index * 2 < arr.length) {
+				arr[index * 2] += rightNodeWeight - leftNodeWeight;
+			}
+		}
+		return maxWeight + arr[index];
 	}
 }
