@@ -1,4 +1,4 @@
-package baekjoon.sj.binarySearch.p_2957.v2;
+package baekjoon.sj.binarytree.p_2957.v1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,31 +16,43 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int n = Integer.parseInt(st.nextToken());
 
+		Node root = null;
 		StringBuilder sb = new StringBuilder();
-		int[] arr = new int[(int) Math.pow(2, n)+1];
-		for (int i = 1; i <= n; i++) {
+		while (n-- > 0) {
 			st = new StringTokenizer(br.readLine());
 			int input = Integer.parseInt(st.nextToken());
-			if (i == 1) {
-				arr[i] = input;
-			} else {
-				insert(input, arr, 1);
-			}
+			root = insert(input, root);
 			sb.append(cnt + "\n");
 		}
 		System.out.println(sb.toString());
 	}
 
-	private static void insert(int number, int[] arr, int index) {
-		if (arr[index] == 0) {
-			arr[index] = number;
-			return;
-		}
-		cnt++;
-		if (number < arr[index]) {
-			insert(number, arr, index * 2);
+	private static Node insert(int number, Node node) {
+		if (node == null) {
+			return new Node(number);
 		} else {
-			insert(number, arr, index * 2 + 1);
+			cnt++;
+			Node cur;
+			if (number < node.data) {
+				cur = insert(number, node.left);
+				node.left = cur;
+			} else {
+				cur = insert(number, node.right);
+				node.right = cur;
+			}
+			return node;
 		}
+	}
+}
+
+class Node {
+	public int data;
+	public Node left;
+	public Node right;
+
+	Node(int data) {
+		this.data = data;
+		left = null;
+		right = null;
 	}
 }
