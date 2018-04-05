@@ -1,4 +1,4 @@
-package baekjoon.sj.binarySearch.p_13325;
+package baekjoon.sj.binarytree.p_13325;
 
 import java.util.Scanner;
 import java.util.StringTokenizer;

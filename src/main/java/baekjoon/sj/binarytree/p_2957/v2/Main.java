@@ -1,4 +1,4 @@
-package baekjoon.sj.binarySearch.p_2957.v2;
+package baekjoon.sj.binarytree.p_2957.v2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
