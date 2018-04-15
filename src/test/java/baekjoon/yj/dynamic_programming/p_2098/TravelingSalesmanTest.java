@@ -7,18 +7,15 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class TravelingSalesmanTest {
 
     @Test
-    public void create() {
-        new TravelingSalesman(4);
-    }
-
-    @Test
     public void addCostRow() {
-        TravelingSalesman ts = new TravelingSalesman(4);
-        ts.addCostRow(0, "0 10 15 20");
-        ts.addCostRow(1, "5  0  9 10");
-        ts.addCostRow(2, "6 13  0 12");
-        ts.addCostRow(3, "8  8  9  0");
-
+        int[][] costs = new int[][]{
+                {0, 0, 0, 0, 0},
+                {0, 0, 10, 15, 20},
+                {0, 5, 0, 9, 10},
+                {0, 6, 13, 0, 12},
+                {0, 8, 8, 9, 0},
+        };
+        TravelingSalesman ts = new TravelingSalesman(4, costs);
         assertThat(ts.getMinimumCost()).isEqualTo(35);
     }
 }
