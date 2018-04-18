@@ -7,22 +7,35 @@ import static java.util.Optional.ofNullable;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int maxLevel = scanner.nextInt();
+        final int maxLevel = scanner.nextInt();
+        CompleteBinaryTree completeBinaryTree = new CompleteBinaryTree(maxLevel);
+        System.out.println(completeBinaryTree.preOrder());
+    }
+}
 
-        Node root = buildTree(0, maxLevel, (1 << maxLevel) - 1, 1);
-        System.out.println(root.preOrder());
+class CompleteBinaryTree {
+    private final int maxLevel;
+    private final Node root;
+
+    CompleteBinaryTree(int maxLevel) {
+        this.maxLevel = maxLevel;
+        this.root = buildTree(0,(1 << maxLevel) - 1, 1);
     }
 
-    private static Node buildTree(int currentLevel, int maxLevel, int rootValue, int leafValue) {
+    private Node buildTree(int currentLevel, int rootValue, int leafValue) {
         Node node = new Node(leafValue);
 
         if (currentLevel < maxLevel - 1) {
-            node.left = buildTree(currentLevel + 1, maxLevel, rootValue - (1 << currentLevel), leafValue);
-            node.right = buildTree(currentLevel + 1, maxLevel, rootValue - (1 << (currentLevel + 1)), leafValue + (1 << currentLevel));
+            node.left = buildTree(currentLevel + 1, rootValue - (1 << currentLevel), leafValue);
+            node.right = buildTree(currentLevel + 1, rootValue - (1 << (currentLevel + 1)), leafValue + (1 << currentLevel));
             node.value = rootValue;
         }
 
         return node;
+    }
+
+    String preOrder() {
+        return root.preOrder();
     }
 }
 
