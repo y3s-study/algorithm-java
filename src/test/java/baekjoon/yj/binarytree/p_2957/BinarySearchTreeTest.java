@@ -1,6 +1,7 @@
 package baekjoon.yj.binarytree.p_2957;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.stream.IntStream;
@@ -91,6 +92,7 @@ public class BinarySearchTreeTest {
         assertThat(tree.count()).isEqualTo(21);
     }
 
+    @Ignore
     @Test(timeout = 1000)
     public void testWorstCase() {
         IntStream.rangeClosed(1, 300_000).forEach(tree::insert);
