@@ -1,6 +1,5 @@
 package baekjoon.sj.dynamic.p_2098;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*
