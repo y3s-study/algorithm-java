@@ -1,4 +1,4 @@
-package baekjoon.sj.dynamic.p_2098;
+package baekjoon.sj.dynamic2.p_2098;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package baekjoon.sj.dynamic.p_2342;
+package baekjoon.sj.dynamic2.p_2342;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,13 +20,13 @@ public class Main {
 		while (st.hasMoreElements()) {
 			list.add(Integer.parseInt(st.nextToken()));
 		}
-		
-		int[][][] cost = new int[1 << list.size()][1 << list.size()][1 << list.size()];
-		System.out.println(findMinSumOfDDR(list, pair, 0, cost, 0, 0, 1));
+
+		int[][] cost = new int[list.size()][1 << list.size()];
+		System.out.println(findMinSumOfDDR(list, pair, 0, cost, 0, 0, 0));
 
 	}
 
-	private static int findMinSumOfDDR(ArrayList<Integer> list, Pair pair, int sum, int[][][] cost, int leftVisited, int rightVisited, int visited) {
+	private static int findMinSumOfDDR(ArrayList<Integer> list, Pair pair, int sum, int[][] cost, int leftVisited, int rightVisited, int visited) {
 		int left = pair.getLeft();
 		int right = pair.getRight();
 		int position = pair.getPosition();
@@ -34,16 +34,16 @@ public class Main {
 		int tempSum = 0;
 		int index = list.get(position);
 
-		// System.out.println("left: " + left + " right: " + right +
-		// " position: " + position + " index: " + index + " sum: " + sum);
-
+		System.out.println("left: " + left + " right: " + right + " position: " + position + " index: " + index + " sum: " + sum + " visited: "
+				+ visited + " leftVisited: " + leftVisited + " rightVisited: " + rightVisited);
+		
 		if (index == 0) {
-			return cost[leftVisited][rightVisited][visited] = sum;
+			return cost[position][visited] = sum;
 		}
 
-		if (cost[leftVisited][rightVisited][visited] != 0) {
-			return cost[leftVisited][rightVisited][visited];
-		}
+//		if (cost[leftVisited][rightVisited][visited] != 0) {
+//			return cost[leftVisited][rightVisited][visited];
+//		}
 
 		// left move
 		if (left == 0) {
@@ -55,9 +55,10 @@ public class Main {
 		} else if (left == (index + 2) % 4) {
 			tempSum = sum + 4; // opposite
 		}
-		if ((left == 0 && right == 0) || left != right) {
-			leftMove = findMinSumOfDDR(list, new Pair(index, right, position + 1), tempSum, cost, leftVisited | (1 << position), rightVisited,
-					visited | (1 << position));
+		if ((left == 0 && right == 0) || index != right) {
+			leftMove = findMinSumOfDDR(list, new Pair(index, right, position + 1), tempSum, cost, leftVisited + 1, rightVisited, visited
+					| (1 << position));
+//			System.out.println("leftMove: " + leftMove);
 		}
 
 		tempSum = 0;
@@ -71,12 +72,13 @@ public class Main {
 		} else if (right == (index + 2) % 4) {
 			tempSum = sum + 4; // opposite
 		}
-		if ((left == 0 && right == 0) || left != right) {
-			rightMove = findMinSumOfDDR(list, new Pair(left, index, position + 1), tempSum, cost, leftVisited, rightVisited | (1 << position),
-					visited | (1 << position));
+		if ((left == 0 && right == 0) || left != index) {
+			rightMove = findMinSumOfDDR(list, new Pair(left, index, position + 1), tempSum, cost, leftVisited, rightVisited + 1, visited
+					| (1 << position));
+//			System.out.println("rightMove: " + rightMove);
 		}
 
-		return cost[leftVisited][rightVisited][visited] = Integer.min(leftMove, rightMove);
+		return cost[position][visited] = Integer.min(leftMove, rightMove);
 	}
 }
 
