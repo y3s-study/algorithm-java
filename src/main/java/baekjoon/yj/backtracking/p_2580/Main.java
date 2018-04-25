@@ -24,7 +24,7 @@ public class Main {
         }
 
         Sudoku sudoku = new Sudoku(board);
-        sudoku.getResult();
+        System.out.println(sudoku.getResult());
     }
 }
 
@@ -33,6 +33,7 @@ class Sudoku {
     private Map<Integer, Set<Integer>> row;
     private Map<Integer, Set<Integer>> col;
     private Map<Integer, Set<Integer>> square;
+    private String result;
 
     Sudoku(int[][] board) {
         this.board = board;
@@ -64,20 +65,19 @@ class Sudoku {
         return (x / 3) * 3 + y / 3;
     }
 
-    void getResult() {
+    String getResult() {
         fillBoard(0, 0);
+        return this.result;
     }
 
     private void fillBoard(int x, int y) {
         if (x == 9 || y == 9) {
-            String result = stream(this.board)
+            this.result = stream(this.board)
                     .map(row -> stream(row)
                             .mapToObj(String::valueOf)
                             .collect(joining(" ")))
                     .collect(joining("\n"));
-
-            System.out.println(result);
-            System.exit(0);
+            return;
         }
 
         final int nextX = x + (y / 8);
