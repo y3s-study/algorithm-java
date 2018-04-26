@@ -13,15 +13,27 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int[][] arr = new int[N][N];
+		boolean[][] rowNumber = new boolean[N][N];
+		boolean[][] colNumber = new boolean[N][N];
+		boolean[][] squareNumber = new boolean[N][N];
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				arr[i][j] = sc.nextInt();
+				if (arr[i][j] != 0) {
+//					System.out.println("i: " + i + " j: " + j);
+//					System.out.println("i / 3 + j / 3: " + (i / 3 + j / 3));
+					System.out.print(" "+(i / 3 + j / 3)+" ");
+					rowNumber[i][arr[i][j] - 1] = colNumber[j][arr[i][j] - 1] = squareNumber[i / 3 + j / 3][arr[i][j] - 1] = true;
+				}
+				else{
+					System.out.print(" 0 ");
+				}
 			}
+			System.out.println();
 		}
 
-		makeSudoku(arr);
-		printArr(arr);
+		makeSudoku(arr, rowNumber, colNumber, squareNumber, 0);
 	}
 
 	private static void printArr(int[][] arr) {
@@ -33,96 +45,34 @@ public class Main {
 		}
 	}
 
-	private static void makeSudoku(int[][] arr) {
-		boolean[] visited = new boolean[N];
-
-		checkRow(arr, visited);
-		checkCol(arr, visited);
-		checkRow(arr, visited);
-
-		checkSquare(arr, visited);
-	}
-
-	private static void checkSquare(int[][] arr, boolean[] visited) {
-		int cnt = 0;
-		int x = 0, y = 0;
-		for (int i = 0; i < N / 3; i++) {
-			for (int j = 0; j < N / 3; j++) {
-				cnt = 0;
-				Arrays.fill(visited, false);
-				for (int row = i * 3; row < (i + 1) * 3; row++) {
-					for (int col = j * 3; col < (j + 1) * 3; col++) {
-						if (arr[row][col] != 0) {
-							visited[arr[row][col] - 1] = true;
-						} else {
-							cnt++;
-							x = row;
-							y = col;
-						}
-					}
+	private static void makeSudoku(int[][] arr, boolean[][] rowNumber, boolean[][] colNumber, boolean[][] squareNumber, int position) {
+		if (position == N * N) {
+			printArr(arr);
+			return;
+		}
+		int row = position / N;
+		int col = position % N;
+//		System.out.println("row: " + row + " col: " + col);
+		if (arr[row][col] != 0) {
+//			System.out.println("enter not zero");
+			makeSudoku(arr, rowNumber, colNumber, squareNumber, position + 1);
+		} else {
+			for (int i = 0; i < N; i++) {
+				if (row == 1 && col == 4) {
+					System.out.println("rowNumber[row][i]: " + rowNumber[row][i]);
+					System.out.println("colNumber[col][i]: " + colNumber[col][i]);
+					System.out.println("squareNumber[" + (row / 3 + col / 3) + "]["+i+"]: " + squareNumber[row / 3 + col / 3][i]);
 				}
-
-				if (cnt == 1) {
-					for (int col = 0; col < N; col++) {
-						if (visited[col] == false) {
-							arr[x][y] = col + 1;
-							break;
-						}
-					}
+				if (rowNumber[row][i] == false && colNumber[col][i] == false && squareNumber[row / 3 + col / 3][i] == false) {
+					rowNumber[row][i] = colNumber[col][i] = squareNumber[row / 3 + col / 3][i] = true;
+					arr[row][col] = i + 1;
+//					System.out.println("--- arr[row][col]: " + arr[row][col] + " ---");
+					makeSudoku(arr, rowNumber, colNumber, squareNumber, position + 1);
+					arr[row][col] = 0;
+					rowNumber[row][i] = colNumber[col][i] = squareNumber[row / 3 + col / 3][i] = false;
 				}
 			}
 		}
-	}
 
-	private static void checkCol(int[][] arr, boolean[] visited) {
-		int cnt = 0;
-		int number = 0;
-		for (int i = 0; i < N; i++) {
-			cnt = 0;
-			Arrays.fill(visited, false);
-			for (int j = 0; j < N; j++) {
-				if (arr[j][i] != 0) {
-					visited[arr[j][i] - 1] = true;
-				} else {
-					cnt++;
-					number = j;
-				}
-			}
-
-			if (cnt == 1) {
-				for (int j = 0; j < N; j++) {
-					if (visited[j] == false) {
-						arr[number][i] = j + 1;
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	private static void checkRow(int[][] arr, boolean[] visited) {
-		int cnt = 0;
-		int number = 0;
-		for (int i = 0; i < N; i++) {
-			cnt = 0;
-			Arrays.fill(visited, false);
-			for (int j = 0; j < N; j++) {
-				if (arr[i][j] != 0) {
-					visited[arr[i][j] - 1] = true;
-				} else {
-					cnt++;
-					number = j;
-				}
-			}
-
-			if (cnt == 1) {
-				for (int j = 0; j < N; j++) {
-					if (visited[j] == false) {
-						arr[i][number] = j + 1;
-						break;
-					}
-				}
-			}
-		}
 	}
 }
