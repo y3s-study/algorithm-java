@@ -38,7 +38,7 @@ public class NQueenTest {
         };
     }
 
-    @Test(timeout = 10_000)
+    @Test
     public void test() {
         assertThat(new NQueen(n).getCount()).isEqualTo(expected);
     }
