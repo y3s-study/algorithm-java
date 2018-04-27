@@ -12,38 +12,61 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int[][] arr = new int[N][N];
-		boolean[][] rowNumber = new boolean[N][N];
-		boolean[][] colNumber = new boolean[N][N];
-		boolean[][] squareNumber = new boolean[N][N];
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				arr[i][j] = sc.nextInt();
+			}
+		}
+		Sudoku sudoku = new Sudoku(arr);
+		System.out.println(sudoku.getArrayString());
+	}
+}
+
+class Sudoku {
+	private static int N = 9;
+	private int[][] arr = new int[N][N];
+	private boolean[][] rowNumber = new boolean[N][N];
+	private boolean[][] colNumber = new boolean[N][N];
+	private boolean[][] squareNumber = new boolean[N][N];
+
+	Sudoku(int[][] arr) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
 				if (arr[i][j] != 0) {
 					rowNumber[i][arr[i][j] - 1] = colNumber[j][arr[i][j] - 1] = squareNumber[findSquareIndex(i, j)][arr[i][j] - 1] = true;
 				}
 			}
 		}
-
 		makeSudoku(arr, rowNumber, colNumber, squareNumber, 0);
 	}
 
-	private static int findSquareIndex(int row, int col) {
+	private int findSquareIndex(int row, int col) {
 		return 3 * (row / 3) + col / 3;
 	}
 
-	private static void printArr(int[][] arr) {
+	public String getArrayString() {
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				System.out.print(arr[i][j] + " ");
+				sb.append(arr[i][j] + " ");
 			}
-			System.out.println();
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+	private void arrCopy(int[][] arr) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				this.arr[i][j] = arr[i][j];
+			}
 		}
 	}
 
-	private static void makeSudoku(int[][] arr, boolean[][] rowNumber, boolean[][] colNumber, boolean[][] squareNumber, int position) {
+	private void makeSudoku(int[][] arr, boolean[][] rowNumber, boolean[][] colNumber, boolean[][] squareNumber, int position) {
 		if (position == N * N) {
-			printArr(arr);
+			arrCopy(arr);
 			return;
 		}
 		int row = position / N;
