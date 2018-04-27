@@ -1,6 +1,5 @@
 package baekjoon.sj.backtracking.p_2580;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -21,19 +20,16 @@ public class Main {
 			for (int j = 0; j < N; j++) {
 				arr[i][j] = sc.nextInt();
 				if (arr[i][j] != 0) {
-//					System.out.println("i: " + i + " j: " + j);
-//					System.out.println("i / 3 + j / 3: " + (i / 3 + j / 3));
-					System.out.print(" "+(i / 3 + j / 3)+" ");
-					rowNumber[i][arr[i][j] - 1] = colNumber[j][arr[i][j] - 1] = squareNumber[i / 3 + j / 3][arr[i][j] - 1] = true;
-				}
-				else{
-					System.out.print(" 0 ");
+					rowNumber[i][arr[i][j] - 1] = colNumber[j][arr[i][j] - 1] = squareNumber[findSquareIndex(i, j)][arr[i][j] - 1] = true;
 				}
 			}
-			System.out.println();
 		}
 
 		makeSudoku(arr, rowNumber, colNumber, squareNumber, 0);
+	}
+
+	private static int findSquareIndex(int row, int col) {
+		return 3 * (row / 3) + col / 3;
 	}
 
 	private static void printArr(int[][] arr) {
@@ -52,27 +48,18 @@ public class Main {
 		}
 		int row = position / N;
 		int col = position % N;
-//		System.out.println("row: " + row + " col: " + col);
 		if (arr[row][col] != 0) {
-//			System.out.println("enter not zero");
 			makeSudoku(arr, rowNumber, colNumber, squareNumber, position + 1);
 		} else {
 			for (int i = 0; i < N; i++) {
-				if (row == 1 && col == 4) {
-					System.out.println("rowNumber[row][i]: " + rowNumber[row][i]);
-					System.out.println("colNumber[col][i]: " + colNumber[col][i]);
-					System.out.println("squareNumber[" + (row / 3 + col / 3) + "]["+i+"]: " + squareNumber[row / 3 + col / 3][i]);
-				}
-				if (rowNumber[row][i] == false && colNumber[col][i] == false && squareNumber[row / 3 + col / 3][i] == false) {
-					rowNumber[row][i] = colNumber[col][i] = squareNumber[row / 3 + col / 3][i] = true;
+				if (rowNumber[row][i] == false && colNumber[col][i] == false && squareNumber[findSquareIndex(row, col)][i] == false) {
+					rowNumber[row][i] = colNumber[col][i] = squareNumber[findSquareIndex(row, col)][i] = true;
 					arr[row][col] = i + 1;
-//					System.out.println("--- arr[row][col]: " + arr[row][col] + " ---");
 					makeSudoku(arr, rowNumber, colNumber, squareNumber, position + 1);
 					arr[row][col] = 0;
-					rowNumber[row][i] = colNumber[col][i] = squareNumber[row / 3 + col / 3][i] = false;
+					rowNumber[row][i] = colNumber[col][i] = squareNumber[findSquareIndex(row, col)][i] = false;
 				}
 			}
 		}
-
 	}
 }
