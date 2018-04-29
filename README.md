@@ -1,6 +1,6 @@
 # Java 알고리즘 스터디
 [![Build Status](https://travis-ci.org/y3s-study/algorithm-java.svg?branch=master)](https://travis-ci.org/y3s-study/algorithm-java)
-[![Coverage Status](https://coveralls.io/repos/github/y3s-study/algorithm-java/badge.svg)](https://coveralls.io/github/y3s-study/algorithm-java)
+[![Coverage Status](https://coveralls.io/repos/github/y3s-study/algorithm-java/badge.svg?branch=master)](https://coveralls.io/github/y3s-study/algorithm-java?branch=master)
 
 java 언어로 알고리즘 문제를 풀고 서로의 코드를 공유합니다.
 
