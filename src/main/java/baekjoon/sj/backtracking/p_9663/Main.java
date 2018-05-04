@@ -1,5 +1,6 @@
 package baekjoon.sj.backtracking.p_9663;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class Main {
 	static int cnt = 0;
 	static int n = 0;
+	static ArrayList<Integer> list = new ArrayList<>();
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -17,22 +19,23 @@ public class Main {
 
 		for (int j = 0; j < n; j++) {
 			visited[0][j] = true;
+			list.add(j);
 			findNoneAttackCnt(visited, 1, j);
+			list.remove(list.indexOf(j));
 			visited[0][j] = false;
 		}
 		System.out.println(cnt);
 	}
 
-	static int[][] attackRange = { 
-//			{ 0, 1 }, 
-			{ 1, 1 }, 
-			{ 1, 0 }, 
-			{ 1, -1 }, 
-//			{ 0, -1 }, 
-			{ -1, -1 }, 
-			{ -1, 0 }, 
-			{ -1, 1 } 
-		};
+	static int[][] attackRange = {
+			// { 0, 1 },
+			{ 1, 1 },
+			// { 1, 0 },
+			{ 1, -1 },
+			// { 0, -1 },
+			{ -1, -1 },
+			// { -1, 0 },
+			{ -1, 1 } };
 
 	private static void findNoneAttackCnt(boolean[][] visited, int nCnt, int index) {
 
@@ -40,16 +43,6 @@ public class Main {
 
 		if (n == nCnt) {
 			cnt++;
-			// for (int i = 0; i < n; i++) {
-			// for (int j = 0; j < n; j++) {
-			// if (visited[i][j] == true) {
-			// System.out.print("1 ");
-			// } else {
-			// System.out.print("0 ");
-			// }
-			// }
-			// System.out.println();
-			// }
 			return;
 		}
 
@@ -58,11 +51,16 @@ public class Main {
 		}
 
 		for (int j = 0; j < n; j++) {
+			if (list.contains(j)) {
+				continue;
+			}
 			index = (row + 1) * n + j;
 
 			if (checkPosition(row + 1, j, visited) == true && visited[row + 1][j] == false) {
 				visited[row + 1][j] = true;
+				list.add(j);
 				findNoneAttackCnt(visited, nCnt + 1, index);
+				list.remove(list.indexOf(j));
 				visited[row + 1][j] = false;
 			}
 		}
