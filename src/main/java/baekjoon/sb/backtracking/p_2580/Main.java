@@ -1,11 +1,6 @@
 package baekjoon.sb.backtracking.p_2580;
 
-import java.awt.Point;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
 
@@ -21,99 +16,99 @@ public class Main {
 		
 		Sudoku sudoku = new Sudoku(arr);
 		sudoku.solve();
+		sudoku.print();
 	}
 	
 }
 
 class Sudoku {
 	private int[][] sudoku;
-	private Set<Point> set;
-	private Set<Integer> checkSet;
+	private int emptyRow;
+	private int emptyCol;
+	
 	
 	public Sudoku(int[][] arr) {
 		this.sudoku = arr;
-		set = new HashSet<>();
-		checkEmpty();
 	}
 	
-	public void solve() {
-		while(set.size() != 0) {
-			solveRow();
-			solveCol();
-			solveSquare();
+	public boolean solve() {
+		
+		if(checkEmpty()) {
+			return true;
+		}
+
+		int row = emptyRow;
+		int col = emptyCol;
+		
+		for( int n = 1; n < 10; n++) {
+			if(enableInsert(n, row, col)) {
+				sudoku[row][col] = n;
+				if(solve()) {
+					return true;
+				} else {
+					sudoku[row][col] = 0;
+				}
+			}
+				
 		}
 		
-		print();
+		return false;
 	}
 	
-	public void solveRow() {
-		checkEmpty();
-		for(Point pt : set) {
-			checkSet = IntStream.range(1, 10).mapToObj(e -> (Integer) e).collect(Collectors.toSet());
-			
-			for(int i = 1; i < 10; i++) {
-				if(checkSet.contains(sudoku[pt.x][i])) {
-					checkSet.remove(sudoku[pt.x][i]);
-				}
-			}
-			if(checkSet.size() == 1) {
-				for(Integer i : checkSet) {
-					sudoku[pt.x][pt.y] = i.intValue();
-				}
-			}
+	public boolean enableInsert(int n, int row, int col) {
+		if( checkRow(n, row) && checkCol(n, col) && checkSquare(n, row, col) ) {
+			return true;
+		} else {			
+			return false;
 		}
 	}
 	
-	public void solveCol() {
-		checkEmpty();
-		for(Point pt : set) {
-			checkSet = IntStream.range(1, 10).mapToObj(e -> (Integer) e).collect(Collectors.toSet());
-			
-			for(int i = 1; i < 10; i++) {
-				if(checkSet.contains(sudoku[i][pt.y])) {
-					checkSet.remove(sudoku[i][pt.y]);
-				}
+	public boolean checkRow(int n, int row) {
+		for(int i = 1; i < 10; i++) {
+			if(sudoku[row][i] == n) {
+				return false;
 			}
-			if(checkSet.size() == 1) {
-				for(Integer i : checkSet) {
-					sudoku[pt.x][pt.y] = i.intValue();
+		}
+		return true;
+	}
+
+	
+	public boolean checkCol(int n, int col) {
+		for(int i = 1; i < 10; i++) {
+			if(sudoku[i][col] == n) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
+	public boolean checkSquare(int n, int row, int col) {
+		int xPos = ((col - 1) / 3) * 3;
+		int yPos = ((row - 1) / 3) * 3;
+
+		for(int i = 1; i < 4; i++) {
+			for(int j = 1; j < 4; j++) {
+				if(sudoku[yPos+i][xPos+j] == n) {
+					return false;
 				}
 			}
 		}
+		return true;
 	}
 	
-	public void solveSquare() {
-		checkEmpty();
-		for(Point pt : set) {
-			checkSet = IntStream.range(1, 10).mapToObj(e -> (Integer) e).collect(Collectors.toSet());
-			int xPos = (pt.x - 1) / 3;
-			int yPos = (pt.y - 1) / 3;
-			
-			for(int i = xPos*3+1; i < xPos*3+4; i++) {
-				for(int j = yPos*3+1; j < yPos*3+4; j++) {
-					if(checkSet.contains(sudoku[i][j])) {
-						checkSet.remove(sudoku[i][j]);
-					}
-				}
-			}
-			
-			if(checkSet.size() == 1) {
-				for(Integer i : checkSet) {
-					sudoku[pt.x][pt.y] = i.intValue();
-				}
-			}
-		}
-	}
 	
-	public void checkEmpty() {
-		set.clear();
+	public boolean checkEmpty() {
 		for(int i = 1; i < 10; i++) {
 			for(int j = 1; j < 10; j++) {
 				if(sudoku[i][j] == 0) {
-					set.add(new Point(i, j));
+					emptyRow = i;
+					emptyCol = j;
+					return false;
 				}
 			}
 		}
+		return true;
 	}
 	
 	public void print() {
