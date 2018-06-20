@@ -28,3 +28,7 @@ java 언어로 알고리즘 문제를 풀고 서로의 코드를 공유합니다
     
 ## 발표 자료
 - JUnit 기초(박영준) : http://slides.com/youngjunpark/junit-basic#/
+
+- JAVA 객체 지향 디자인 패턴 
+	chapter1. 객체지향 모델링 (송성빈) : https://slides.com/ssbslides/chapter1#/
+	chapter2. 객체지향 원리 (송성빈) : https://slides.com/ssbslides/chapter2#/
